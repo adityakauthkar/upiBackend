@@ -9,9 +9,9 @@ const pool = new Pool({
   },
 });
 
-(async () => {
-  const res = await pool.query("SELECT *FROM transactions  " );
-  console.log(res.rows);
-})();
+// (async () => {
+//   const res = await pool.query("SELECT *FROM transactions" );
+//   console.log(res.rows);
+// })();
 
 module.exports = pool;  

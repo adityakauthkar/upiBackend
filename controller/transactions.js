@@ -129,7 +129,31 @@ const sendMoney = async (req, res) => {
 
 
 // GET Transaction History : 
+const getTransactionHistory = async(req , res)=>{
+  try{ 
+
+    const {status} = req.query;
+    const userId = req.user.id ; 
+
+    const result = await pool.query('SELECT * FROM transactions WHERE sender_id = $1  OR receiver_id = $1' ,
+      [userId] 
+    ) ; 
+    return res.status(200).json({
+      success:true , 
+      message: 'Transaction fetched successfully. ',
+       transactions : result.rows ,
+    })
+
+  }catch(error) { 
+    console.log("Error while retriving transations " , error) ;
+
+    return res.status(400).json({
+      success: false , 
+      message: 'Server error' ,
+    })
+
+  }
+}
 
 
-
-module.exports = { getBalance, sendMoney };
+module.exports = { getBalance, sendMoney  , getTransactionHistory};
