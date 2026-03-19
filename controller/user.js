@@ -37,7 +37,7 @@ const register = async (req, res) => {
     //creating newUser
     await pool.query(
       "INSERT INTO bank_accounts (user_id, balance, upi_id) VALUES ($1, $2, $3)",
-      [newUser.rows[0].id, 0, `${newUser.rows[0].id}@upi`],
+      [newUser.rows[0].id, 1000, `${newUser.rows[0].id}@upi`],
     );
 
     return res.status(202).json({
