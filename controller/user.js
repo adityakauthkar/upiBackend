@@ -54,7 +54,6 @@ const register = async (req, res) => {
 };
 
 //LOGIN : 
-
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -73,6 +72,7 @@ const login = async (req, res) => {
 
     if (userFound.rows.length === 0) {
       return res.status(400).json({
+        success:false,
         message: "User is not registered . Please Sign up first",
       });
     }
@@ -83,10 +83,12 @@ const login = async (req, res) => {
 
     if (!match) {
       return res.status(400).json({
-        message: "User not registered . Please sign up.",
+        success:false,
+        message: "Incorrect password", 
       });
     }
 
+    //generate token 
     const token = jwt.sign(
       { id: user.id, email: user.email },
       process.env.JWT_SECRET,
@@ -94,6 +96,7 @@ const login = async (req, res) => {
     );
 
     return res.status(200).json({
+      success:true,
       message: "Login successful",
       token,
       user: {
@@ -105,6 +108,7 @@ const login = async (req, res) => {
   } catch (error) {
     console.log("error : ", error);
     res.status(500).json({
+      success:false,
       message: "Server error",
     });
   }
